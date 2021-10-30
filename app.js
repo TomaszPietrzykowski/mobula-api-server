@@ -1,12 +1,13 @@
 const express = require("express")
 const dotenv = require("dotenv")
 const path = require("path")
+const corsMW = require("./middleware/corsMiddleware")
 const userRoutes = require("./routes/userRoutes")
 
 dotenv.config()
 
 const app = express()
-
+app.use("*", corsMW)
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
