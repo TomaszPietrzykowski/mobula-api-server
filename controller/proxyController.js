@@ -35,6 +35,6 @@ exports.proxyController = async (req, res) => {
     }
     res.status(response.status).send(proxyResponse)
   } catch (error) {
-    res.send(error)
+    res.status(error.response.status).send(error)
   }
 }
