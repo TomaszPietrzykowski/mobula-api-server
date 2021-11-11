@@ -27,11 +27,14 @@ exports.proxyController = async (req, res) => {
       params: req.params,
       data: req.data,
     }
+    const proxyRequestStart = new Date().getTime()
     const response = await axios(axiosConfig)
+    const proxyRequestEnd = new Date().getTime()
     const proxyResponse = {
       originalData: response.data,
       originalResponseHeaders: response.headers,
       proxyRequestHeaders: response.request._header,
+      proxyTiming: proxyRequestEnd - proxyRequestStart,
     }
     res.status(response.status).send(proxyResponse)
   } catch (error) {
