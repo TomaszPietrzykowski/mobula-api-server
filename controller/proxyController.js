@@ -25,7 +25,7 @@ exports.proxyController = async (req, res) => {
       method: req.method,
       headers: getCustomHeaders(req.headers),
       params: req.params,
-      data: req.data,
+      data: req.body,
     }
     const proxyRequestStart = new Date().getTime()
     const response = await axios(axiosConfig)
