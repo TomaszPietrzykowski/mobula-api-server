@@ -4,8 +4,10 @@ const path = require("path")
 const corsMiddleware = require("./middleware/corsMiddleware")
 const userRoutes = require("./routes/userRoutes")
 const proxyRoutes = require("./routes/proxyRoutes")
+const connectDB = require("./config/db")
 
 dotenv.config()
+connectDB()
 
 const app = express()
 app.use("*", corsMiddleware)
