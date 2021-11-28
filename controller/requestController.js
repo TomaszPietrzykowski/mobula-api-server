@@ -18,7 +18,7 @@ exports.addRequest = asyncHandler(async (req, res) => {
     res.status(201).json(request)
   } else {
     res.status(500)
-    throw new Error('Error saving request')
+    throw new Error('Error creating request')
   }
 })
 
