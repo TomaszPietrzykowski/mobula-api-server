@@ -4,6 +4,7 @@ const path = require("path")
 const corsMiddleware = require("./middleware/corsMiddleware")
 const userRoutes = require("./routes/userRoutes")
 const proxyRoutes = require("./routes/proxyRoutes")
+const requestRoutes = require("./routes/requestRoutes")
 const connectDB = require("./config/db")
 
 dotenv.config()
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use("/api/users", userRoutes)
 app.use("/api/proxy", proxyRoutes)
+app.use("/api/request", requestRoutes)
 
 app.use(express.static(path.join(__dirname, "/view")))
 app.get("*", (req, res) =>
