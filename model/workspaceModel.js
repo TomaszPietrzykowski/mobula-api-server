@@ -19,6 +19,24 @@ const workspaceSchema = mongoose.Schema(
       type: [mongoose.Schema.Types.ObjectId],
       ref: 'Request',
     },
+    environment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Environment',
+      required: false,
+    },
+    state: {
+      openRequests: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'Request',
+        required: true,
+        default: [],
+      },
+      selectedRequest: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Request',
+        required: false,
+      },
+    },
   },
   {
     timestamps: true,
