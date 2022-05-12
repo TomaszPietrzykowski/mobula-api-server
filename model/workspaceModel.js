@@ -1,39 +1,39 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
 
 const workspaceSchema = mongoose.Schema(
   {
     users: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'User',
+      ref: "User",
     },
     name: {
       type: String,
       required: true,
-      default: 'New workspace',
+      default: "New workspace",
     },
     collections: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'Collection',
+      ref: "Collection",
     },
     requests: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: 'Request',
+      ref: "Request",
     },
     environment: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Environment',
+      ref: "Environment",
       required: false,
     },
     state: {
       openRequests: {
         type: [mongoose.Schema.Types.ObjectId],
-        ref: 'Request',
+        ref: "Request",
         required: true,
         default: [],
       },
       selectedRequest: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Request',
+        ref: "Request",
         required: false,
       },
     },
@@ -43,6 +43,6 @@ const workspaceSchema = mongoose.Schema(
   }
 )
 
-const Workspace = mongoose.model('Workspace', workspaceSchema)
+const Workspace = mongoose.model("Workspace", workspaceSchema)
 
 module.exports = Workspace
