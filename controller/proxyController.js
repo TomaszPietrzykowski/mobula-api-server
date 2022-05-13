@@ -25,7 +25,7 @@ exports.proxyController = async (req, res) => {
   const applyQueries = (queries, url) => {
     let arr = []
     Object.entries(queries).forEach((el) => {
-      if (el[0] !== "url") {
+      if (el[0] !== "mobulaproxyurl") {
         arr.push(`${el[0]}=${el[1]}`)
       }
     })
@@ -35,12 +35,11 @@ exports.proxyController = async (req, res) => {
     return output
   }
   // -------------------------------------------------------
-  console.log(req.query)
-  const decodedQueriesUrl = req.query.url
+
+  const decodedQueriesUrl = req.query.mobulaproxyurl
     .replace(/<>/g, "?")
     .replace(/></g, "&")
   const destinationUrl = applyQueries(req.query, decodedQueriesUrl)
-  console.log(destinationUrl)
   try {
     const axiosConfig = {
       url: destinationUrl,
