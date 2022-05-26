@@ -31,7 +31,6 @@ exports.proxyController = async (req, res) => {
     })
     const prefix = url.includes("?") ? "&" : "?"
     const output = arr.length === 0 ? url : `${url}${prefix}${arr.join("&")}`
-    console.log(output)
     return output
   }
   // -------------------------------------------------------

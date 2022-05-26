@@ -1,7 +1,7 @@
-const User = require('../model/userModel')
-const Workspace = require('../model/workspaceModel')
-const asyncHandler = require('express-async-handler')
-const generateToken = require('../utils/generateToken')
+const User = require("../model/userModel")
+const Workspace = require("../model/workspaceModel")
+const asyncHandler = require("express-async-handler")
+const generateToken = require("../utils/generateToken")
 
 // @description: Register new user
 // @route: POST /api/users/register
@@ -11,7 +11,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
   const userExist = await User.findOne({ email })
   if (userExist) {
     res.status(400)
-    throw new Error('User already exists')
+    throw new Error("User already exists")
   }
   const user = await User.create({
     name,
@@ -32,7 +32,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(400)
-    throw new Error('Invalid user data')
+    throw new Error("Invalid user data")
   }
 })
 
@@ -52,7 +52,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(401)
-    throw new Error('Invalid email or password')
+    throw new Error("Invalid email or password")
   }
 })
 
@@ -71,7 +71,7 @@ exports.getUserProfile = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(404)
-    throw new Error('User not found')
+    throw new Error("User not found")
   }
 })
 
@@ -100,7 +100,7 @@ exports.updateUserProfile = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(404)
-    throw new Error('User not found')
+    throw new Error("User not found")
   }
 })
 
@@ -120,16 +120,16 @@ exports.deleteUser = asyncHandler(async (req, res) => {
   if (user) {
     if (!user.isSuperAdmin) {
       await user.remove()
-      res.json({ message: 'User deleted' })
+      res.json({ message: "User deleted" })
     } else {
       res.status(401).json({
         message:
-          'Superadmin settings cannot be changed from this permission tier.',
+          "Superadmin settings cannot be changed from this permission tier.",
       })
     }
   } else {
     res.status(404)
-    throw new Error('User not found')
+    throw new Error("User not found")
   }
 })
 
@@ -137,12 +137,12 @@ exports.deleteUser = asyncHandler(async (req, res) => {
 // @route: GET /api/users/:id
 // @access: Private/Admin
 exports.getUserById = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.params.id).select('-password')
+  const user = await User.findById(req.params.id).select("-password")
   if (user) {
     res.json(user)
   } else {
     res.status(404)
-    throw new Error('User not found')
+    throw new Error("User not found")
   }
 })
 
@@ -167,6 +167,6 @@ exports.updateUser = asyncHandler(async (req, res) => {
     })
   } else {
     res.status(404)
-    throw new Error('User not found')
+    throw new Error("User not found")
   }
 })

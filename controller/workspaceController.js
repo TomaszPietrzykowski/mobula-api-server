@@ -1,5 +1,5 @@
-const Workspace = require('../model/workspaceModel')
-const asyncHandler = require('express-async-handler')
+const Workspace = require("../model/workspaceModel")
+const asyncHandler = require("express-async-handler")
 
 // @description: Get all user's workspaces
 // @route: GET /api/workspace/getall/:userId
@@ -11,7 +11,7 @@ exports.getUsersWorkspaces = asyncHandler(async (req, res) => {
     res.status(200).json(workspaces)
   } else {
     res.status(404)
-    throw new Error('No workspaces found')
+    throw new Error("No workspaces found")
   }
 })
 
@@ -19,13 +19,25 @@ exports.getUsersWorkspaces = asyncHandler(async (req, res) => {
 // @route: GET /api/workspace/:id
 // @access: Private
 exports.getWorkspaceById = asyncHandler(async (req, res) => {
-  const workspace = await Workspace.findById(req.params.id)
+  const workspace = await Workspace.findById(req.params.id).populate([
+    { path: "openRequests", model: "Request" },
+    { path: "requests", model: "Request", select: "name _id method" },
+    {
+      path: "collections",
+      model: "Collection",
+      populate: {
+        path: "requests",
+        model: "Request",
+        select: "name _id",
+      },
+    },
+  ])
 
   if (workspace) {
     res.status(200).json(workspace)
   } else {
     res.status(404)
-    throw new Error('Workspace not found')
+    throw new Error("Workspace not found")
   }
 })
 
@@ -40,7 +52,7 @@ exports.createWorkspace = asyncHandler(async (req, res) => {
     res.status(201).json(workspace)
   } else {
     res.status(500)
-    throw new Error('Error creating workspace')
+    throw new Error("Error creating workspace")
   }
 })
 
@@ -51,9 +63,9 @@ exports.deleteWorkspace = asyncHandler(async (req, res) => {
   const workspace = await Workspace.findById(req.params.id)
   if (workspace) {
     await workspace.remove()
-    res.status(204).json({ message: 'Workspace deleted' })
+    res.status(204).json({ message: "Workspace deleted" })
   } else {
     res.status(404)
-    throw new Error('Workspace not found')
+    throw new Error("Workspace not found")
   }
 })

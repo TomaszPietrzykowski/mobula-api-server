@@ -24,18 +24,16 @@ const workspaceSchema = mongoose.Schema(
       ref: "Environment",
       required: false,
     },
-    state: {
-      openRequests: {
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: "Request",
-        required: true,
-        default: [],
-      },
-      selectedRequest: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Request",
-        required: false,
-      },
+    openRequests: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "Request",
+      required: true,
+      default: [],
+    },
+    selectedRequest: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Request",
+      required: false,
     },
   },
   {
