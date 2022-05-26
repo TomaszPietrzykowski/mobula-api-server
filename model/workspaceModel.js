@@ -14,15 +14,14 @@ const workspaceSchema = mongoose.Schema(
     collections: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Collection",
+      required: true,
+      default: [],
     },
     requests: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Request",
-    },
-    environment: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Environment",
-      required: false,
+      required: true,
+      default: [],
     },
     openRequests: {
       type: [mongoose.Schema.Types.ObjectId],
@@ -33,6 +32,11 @@ const workspaceSchema = mongoose.Schema(
     selectedRequest: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Request",
+      required: false,
+    },
+    environment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Environment",
       required: false,
     },
   },

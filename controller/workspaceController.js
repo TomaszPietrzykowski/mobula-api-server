@@ -45,8 +45,24 @@ exports.getWorkspaceById = asyncHandler(async (req, res) => {
 // @route POST: /api/workspace
 // @access: Public
 exports.createWorkspace = asyncHandler(async (req, res) => {
-  const { name, userId } = req.body
-  const workspace = await Workspace.create({ name, users: [userId] })
+  const {
+    name,
+    users,
+    collections,
+    requests,
+    openRequests,
+    selectedRequest,
+    environment,
+  } = req.body
+  const workspace = await Workspace.create({
+    name,
+    users,
+    collections,
+    requests,
+    openRequests,
+    selectedRequest,
+    environment,
+  })
 
   if (workspace) {
     res.status(201).json(workspace)
