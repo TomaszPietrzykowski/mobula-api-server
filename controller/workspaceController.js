@@ -21,14 +21,14 @@ exports.getUsersWorkspaces = asyncHandler(async (req, res) => {
 exports.getWorkspaceById = asyncHandler(async (req, res) => {
   const workspace = await Workspace.findById(req.params.id).populate([
     { path: "openRequests", model: "Request" },
-    { path: "requests", model: "Request", select: "name _id method" },
+    { path: "requests", model: "Request", select: "reqName _id reqMethod" },
     {
       path: "collections",
       model: "Collection",
       populate: {
         path: "requests",
         model: "Request",
-        select: "name _id",
+        select: "reqName _id reqMethod reqUrl",
       },
     },
   ])
