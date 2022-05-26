@@ -2,13 +2,40 @@ const mongoose = require("mongoose")
 
 const requestSchema = mongoose.Schema(
   {
-    name: {
+    reqName: {
       type: String,
       required: true,
     },
-    method: {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
+    reqMethod: {
       type: String,
       required: true,
+    },
+    reqUrl: {
+      type: String,
+      required: true,
+    },
+    reqHeaders: {
+      type: Object,
+      required: true,
+      default: {},
+    },
+    reqQueries: {
+      type: Object,
+      required: true,
+      default: {},
+    },
+    reqBody: {
+      type: Object,
+      required: false,
+    },
+    proxy: {
+      type: Boolean,
+      required: true,
+      default: true,
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
@@ -20,7 +47,7 @@ const requestSchema = mongoose.Schema(
     },
     requestConfig: {
       type: Object,
-      required: true,
+      required: false,
     },
     lastResponse: {
       type: Object,
