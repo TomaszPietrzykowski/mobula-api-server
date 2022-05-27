@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    activeWorkspace: {
+    workspaceActive: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Workspace",
     },

@@ -33,8 +33,9 @@ exports.getWorkspaceById = asyncHandler(async (req, res) => {
     },
   ])
 
-  if (workspace) {
-    res.status(200).json(workspace)
+  if (workspace._doc) {
+    const env = workspace._doc.environment || []
+    res.status(200).json({ ...workspace._doc, env })
   } else {
     res.status(404)
     throw new Error("Workspace not found")
@@ -52,7 +53,7 @@ exports.createWorkspace = asyncHandler(async (req, res) => {
     requests,
     openRequests,
     selectedRequest,
-    environment,
+    env,
   } = req.body
   const workspace = await Workspace.create({
     name,
@@ -61,7 +62,7 @@ exports.createWorkspace = asyncHandler(async (req, res) => {
     requests,
     openRequests,
     selectedRequest,
-    environment,
+    env,
   })
 
   if (workspace) {
