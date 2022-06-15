@@ -1,25 +1,25 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 const collectionSchema = mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      default: "New folder",
+      default: 'New folder',
     },
     workspace: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Workspace",
+      ref: 'Workspace',
       required: true,
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
     requests: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "Request",
+      ref: 'Request',
       required: true,
       default: [],
     },
@@ -29,6 +29,6 @@ const collectionSchema = mongoose.Schema(
   }
 )
 
-const Collection = mongoose.model("Collection", collectionSchema)
+const Collection = mongoose.model('Collection', collectionSchema)
 
 module.exports = Collection

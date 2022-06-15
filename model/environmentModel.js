@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 const envVariableSchema = mongoose.Schema({
   key: {
@@ -14,12 +14,12 @@ const envVariableSchema = mongoose.Schema({
 const environmentSchema = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   variables: [envVariableSchema],
 })
 
-const Env = mongoose.model("Environment", environmentSchema)
+const Env = mongoose.model('Environment', environmentSchema)
 
 module.exports = Env

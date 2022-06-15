@@ -2,14 +2,14 @@
 // @route: /api/proxy
 // @query: url: string
 
-const axios = require("axios")
+const axios = require('axios')
 const getCustomHeaders = (headers) => {
   const headersArray = Object.entries(headers)
     .filter(([key, value]) => {
-      return key.startsWith("mobula-proxy-")
+      return key.startsWith('mobula-proxy-')
     })
     .map(([key, value]) => {
-      return { [key.toString().replace("mobula-proxy-", "")]: value }
+      return { [key.toString().replace('mobula-proxy-', '')]: value }
     })
   let headersObj = {}
   headersArray.forEach((entry) => {
@@ -25,19 +25,19 @@ exports.proxyController = async (req, res) => {
   const applyQueries = (queries, url) => {
     let arr = []
     Object.entries(queries).forEach((el) => {
-      if (el[0] !== "mobulaproxyurl") {
+      if (el[0] !== 'mobulaproxyurl') {
         arr.push(`${el[0]}=${el[1]}`)
       }
     })
-    const prefix = url.includes("?") ? "&" : "?"
-    const output = arr.length === 0 ? url : `${url}${prefix}${arr.join("&")}`
+    const prefix = url.includes('?') ? '&' : '?'
+    const output = arr.length === 0 ? url : `${url}${prefix}${arr.join('&')}`
     return output
   }
   // -------------------------------------------------------
 
   const decodedQueriesUrl = req.query.mobulaproxyurl
-    .replace(/<>/g, "?")
-    .replace(/></g, "&")
+    .replace(/<>/g, '?')
+    .replace(/></g, '&')
   const destinationUrl = applyQueries(req.query, decodedQueriesUrl)
   try {
     const axiosConfig = {

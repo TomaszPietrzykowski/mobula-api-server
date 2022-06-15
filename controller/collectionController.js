@@ -1,5 +1,5 @@
-const Collection = require("../model/collectionModel")
-const asyncHandler = require("express-async-handler")
+const Collection = require('../model/collectionModel')
+const asyncHandler = require('express-async-handler')
 
 // @description: Create new collection
 // @route POST: /api/collection
@@ -18,6 +18,6 @@ exports.createCollection = asyncHandler(async (req, res) => {
     res.status(201).json(collection)
   } else {
     res.status(500)
-    throw new Error("Error creating collection")
+    throw new Error('Error creating collection')
   }
 })

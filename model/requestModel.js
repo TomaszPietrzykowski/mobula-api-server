@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose')
 
 const requestSchema = mongoose.Schema(
   {
@@ -39,11 +39,11 @@ const requestSchema = mongoose.Schema(
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
     lastModifiedBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
     requestConfig: {
       type: Object,
@@ -59,6 +59,6 @@ const requestSchema = mongoose.Schema(
   }
 )
 
-const Request = mongoose.model("Request", requestSchema)
+const Request = mongoose.model('Request', requestSchema)
 
 module.exports = Request

@@ -1,5 +1,5 @@
-const mongoose = require("mongoose")
-const bcrypt = require("bcryptjs")
+const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 
 const userSchema = mongoose.Schema(
   {
@@ -28,7 +28,7 @@ const userSchema = mongoose.Schema(
     },
     workspaceActive: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Workspace",
+      ref: 'Workspace',
     },
   },
   {
@@ -36,8 +36,8 @@ const userSchema = mongoose.Schema(
   }
 )
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
     next()
   }
   const salt = await bcrypt.genSalt(10)
@@ -48,6 +48,6 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password)
 }
 
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model('User', userSchema)
 
 module.exports = User
