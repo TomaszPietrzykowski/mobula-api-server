@@ -12,6 +12,11 @@ const envVariableSchema = mongoose.Schema({
 })
 
 const environmentSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    default: 'Unnamed Environment',
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

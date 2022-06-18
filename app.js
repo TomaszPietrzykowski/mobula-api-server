@@ -6,6 +6,7 @@ const userRoutes = require('./routes/userRoutes')
 const proxyRoutes = require('./routes/proxyRoutes')
 const requestRoutes = require('./routes/requestRoutes')
 const workspaceRoutes = require('./routes/workspaceRoutes')
+const envRoutes = require('./routes/envRoutes')
 const collectionRoutes = require('./routes/collectionRoutes')
 const connectDB = require('./config/db')
 
@@ -22,6 +23,7 @@ app.use('/api/proxy', proxyRoutes)
 app.use('/api/request', requestRoutes)
 app.use('/api/workspace', workspaceRoutes)
 app.use('/api/collection', collectionRoutes)
+app.use('/api/env', envRoutes)
 
 app.use(express.static(path.join(__dirname, '/view')))
 app.get('*', (req, res) =>
