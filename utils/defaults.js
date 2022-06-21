@@ -54,7 +54,7 @@ const posts = [
     reqBody: {},
   },
   {
-    reqName: 'Create new TODO',
+    reqName: 'Delete TODO',
     reqUrl: 'https://jsonplaceholder.typicode.com/post/7',
     reqMethod: 'DELETE',
     reqHeaders: {},
