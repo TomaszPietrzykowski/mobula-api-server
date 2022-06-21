@@ -39,6 +39,12 @@ const workspaceSchema = mongoose.Schema(
       ref: 'Environment',
       required: false,
     },
+    environments: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'Env',
+      required: true,
+      default: [],
+    },
   },
   {
     timestamps: true,

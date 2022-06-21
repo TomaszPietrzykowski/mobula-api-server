@@ -1,7 +1,11 @@
 const User = require('../model/userModel')
 const Workspace = require('../model/workspaceModel')
+const Request = require('../model/requestModel')
+const Collection = require('../model/collectionModel')
+const Env = require('../model/environmentModel')
 const asyncHandler = require('express-async-handler')
 const generateToken = require('../utils/generateToken')
+const defaults = require('../utils/defaults')
 
 // @description: Register new user
 // @route: POST /api/users/register
@@ -22,16 +26,92 @@ exports.registerUser = asyncHandler(async (req, res) => {
   if (user) {
     // send confirmation email
     // sendConfirmationEmail(user.email, user.name, user._id, "register")
+
+    // setup default workspace --------------------------------------------
+
+    // get boilerplate workspace
+
+    const workspace = await Workspace.create({
+      name: 'My first project',
+      users: [user._id],
+      collections: [],
+      requests: [],
+      openRequests: [],
+    })
+
+    // create exemplary requests
+    const userData = {
+      userId: user._id,
+      createdBy: user._id,
+      lastModifiedBy: user._id,
+    }
+
+    const [t1, t2, t3, p1, p2, p3] = await Promise.all([
+      Request.create({ ...defaults.todos[0], ...userData }),
+      Request.create({ ...defaults.todos[1], ...userData }),
+      Request.create({ ...defaults.todos[2], ...userData }),
+      Request.create({ ...defaults.posts[0], ...userData }),
+      Request.create({ ...defaults.posts[1], ...userData }),
+      Request.create({ ...defaults.posts[2], ...userData }),
+    ])
+
+    // create collections, assign requests
+
+    const colTodo = {
+      name: 'TODO endpoints',
+      user: user._id,
+      workspace: workspace._id,
+      requests: [t1._id, t2._id, t3._id],
+    }
+    const colPosts = {
+      name: 'POST endpoints',
+      user: user._id,
+      workspace: workspace._id,
+      requests: [p1._id, p2._id, p3._id],
+    }
+    const [c1, c2] = await Promise.all([
+      Collection.create(colTodo),
+      Collection.create(colPosts),
+    ])
+
+    // create exemplary environment
+
+    const env = await Env.create({
+      name: 'JSON Placeholder PRODUCTION',
+      user: user._id,
+      variables: [
+        { key: 'URL', value: 'https://jsonplaceholder.typicode.com' },
+        { key: 'ID', value: '1' },
+      ],
+    })
+
+    // update workspace
+
+    workspace.collections = [c1._id, c2._id]
+    workspace.requests = []
+    workspace.openRequests = [t1._id, t2._id, t3._id]
+    workspace.selectedRequest = t1._id
+    workspace.environment = env._id
+
+    const updatedWorkspace = await workspace.save()
+
+    // finally update user
+
+    user.workspaces = [workspace._id]
+    user.workspaceActive = workspace._id
+
+    const updatedUser = await user.save()
+
     // send response with token
 
-    // setup default workspace
-
     res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-      token: generateToken(user._id),
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      workspaces: updatedUser.workspaces,
+      workspaceActive: updatedUser.workspaceActive,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
     })
   } else {
     res.status(400)

@@ -26,6 +26,12 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
+    workspaces: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'Workspace',
+      required: true,
+      default: [],
+    },
     workspaceActive: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Workspace',
