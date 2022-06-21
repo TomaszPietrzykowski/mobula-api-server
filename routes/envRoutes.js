@@ -3,6 +3,7 @@ const {
   createEnv,
   updateEnv,
   deleteEnv,
+  getEnv,
 } = require('../controller/envController')
 const { auth } = require('../middleware/authMiddleware')
 const router = express.Router()
@@ -10,7 +11,7 @@ const router = express.Router()
 router.route('/').post(createEnv)
 router
   .route('/:id')
-  .get(auth, auth)
+  .get(auth, getEnv)
   .put(auth, updateEnv)
   .delete(auth, deleteEnv)
 

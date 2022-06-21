@@ -23,6 +23,9 @@ exports.registerUser = asyncHandler(async (req, res) => {
     // send confirmation email
     // sendConfirmationEmail(user.email, user.name, user._id, "register")
     // send response with token
+
+    // setup default workspace
+
     res.status(201).json({
       _id: user._id,
       name: user.name,

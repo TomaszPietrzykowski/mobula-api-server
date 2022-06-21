@@ -9,7 +9,7 @@ exports.createEnv = asyncHandler(async (req, res) => {
   const env = await Env.create({
     name,
     user,
-    variables,
+    variables: variables || [],
   })
 
   if (env) {
@@ -29,7 +29,7 @@ exports.createEnv = asyncHandler(async (req, res) => {
 // @route: GET /api/env/:id
 // @access: Private
 exports.getEnv = asyncHandler(async (req, res) => {
-  const env = await Env.findById(req.params.id)
+  const env = await Env.findById(req.params.id).select('-__v')
 
   if (env) {
     res.status(200).json(env)

@@ -33,8 +33,8 @@ exports.getWorkspaceById = asyncHandler(async (req, res) => {
     },
   ])
 
-  if (workspace._doc) {
-    const env = workspace._doc.environment || []
+  if (workspace) {
+    const env = workspace._doc.environment || ''
     res.status(200).json({ ...workspace._doc, env })
   } else {
     res.status(404)
