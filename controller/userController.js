@@ -58,13 +58,13 @@ exports.registerUser = asyncHandler(async (req, res) => {
     // create collections, assign requests
 
     const colTodo = {
-      name: 'TODO endpoints',
+      name: 'To-do list endpoints',
       user: user._id,
       workspace: workspace._id,
       requests: [t1._id, t2._id, t3._id],
     }
     const colPosts = {
-      name: 'POST endpoints',
+      name: 'Blog endpoints',
       user: user._id,
       workspace: workspace._id,
       requests: [p1._id, p2._id, p3._id],
@@ -77,7 +77,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
     // create exemplary environment
 
     const env = await Env.create({
-      name: 'JSON Placeholder PRODUCTION',
+      name: 'JSON Placeholder',
       user: user._id,
       variables: [
         { key: 'URL', value: 'https://jsonplaceholder.typicode.com' },

@@ -1,6 +1,6 @@
 const todos = [
   {
-    reqName: "Get all TODO's",
+    reqName: "Fetch all to-do's",
     reqUrl: '{{URL}}/todos',
     reqMethod: 'GET',
     reqHeaders: {},
@@ -9,7 +9,7 @@ const todos = [
     reqBody: {},
   },
   {
-    reqName: 'Get TODO by ID',
+    reqName: 'Fetch TODO by id',
     reqUrl: '{{URL}}/todos/{{ID}}',
     reqMethod: 'GET',
     reqHeaders: {},
@@ -18,7 +18,7 @@ const todos = [
     reqBody: {},
   },
   {
-    reqName: 'Create new TODO',
+    reqName: 'Create new to-do',
     reqUrl: 'https://jsonplaceholder.typicode.com/todos',
     reqMethod: 'POST',
     reqHeaders: {
@@ -36,8 +36,8 @@ const todos = [
 
 const posts = [
   {
-    reqName: 'Get all posts',
-    reqUrl: 'https://jsonplaceholder.typicode.com/posts',
+    reqName: 'Fetch all comments for the post',
+    reqUrl: '{{URL}}/posts/{{ID}}/comments',
     reqMethod: 'GET',
     reqHeaders: {},
     reqQueries: {},
@@ -45,7 +45,7 @@ const posts = [
     reqBody: {},
   },
   {
-    reqName: 'Get post by ID',
+    reqName: 'Fetch post by id',
     reqUrl: 'https://jsonplaceholder.typicode.com/posts/7',
     reqMethod: 'GET',
     reqHeaders: {},
@@ -54,7 +54,7 @@ const posts = [
     reqBody: {},
   },
   {
-    reqName: 'Delete TODO',
+    reqName: 'Delete post',
     reqUrl: 'https://jsonplaceholder.typicode.com/post/7',
     reqMethod: 'DELETE',
     reqHeaders: {},
