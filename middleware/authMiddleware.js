@@ -17,14 +17,13 @@ exports.auth = asyncHandler(async (req, res, next) => {
 
       next()
     } catch (err) {
-      console.error(err.message)
       res.status(401)
-      throw new Error('Unauthorized, token failed')
+      throw new Error(`Unauthorized ${err.message}`)
     }
   }
 
   if (!token) {
     res.status(401)
-    throw new Error('No token')
+    throw new Error('No token; authorization failed')
   }
 })

@@ -53,7 +53,7 @@ exports.createWorkspace = asyncHandler(async (req, res) => {
     requests,
     openRequests,
     selectedRequest,
-    env,
+    environment,
   } = req.body
   const workspace = await Workspace.create({
     name,
@@ -62,7 +62,7 @@ exports.createWorkspace = asyncHandler(async (req, res) => {
     requests,
     openRequests,
     selectedRequest,
-    env,
+    environment,
   })
 
   if (workspace) {
@@ -70,6 +70,42 @@ exports.createWorkspace = asyncHandler(async (req, res) => {
   } else {
     res.status(500)
     throw new Error('Error creating workspace')
+  }
+})
+
+// @description: Update new workspace
+// @route PUT: /api/workspace/:id
+// @access: Privare
+exports.updateWorkspace = asyncHandler(async (req, res) => {
+  const {
+    name,
+    users,
+    collections,
+    requests,
+    openRequests,
+    selectedRequest,
+    environment,
+    environments,
+  } = req.body
+
+  const workspace = await Workspace.findById(req.params.id)
+
+  if (workspace) {
+    workspace.name = name || workspace.name
+    workspace.users = users || workspace.users
+    workspace.collections = collections || workspace.collections
+    workspace.requests = requests || workspace.requests
+    workspace.openRequests = openRequests || workspace.openRequests
+    workspace.selectedRequest = selectedRequest || workspace.selectedRequest
+    workspace.environment = environment || workspace.environment
+    workspace.environments = environments || workspace.environments
+
+    const updatedWorkspace = await workspace.save()
+
+    res.status(200).json(updatedWorkspace)
+  } else {
+    res.status(404)
+    throw new Error('Error updating workspace: workspace not found')
   }
 })
 

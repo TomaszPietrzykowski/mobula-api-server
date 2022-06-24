@@ -9,7 +9,7 @@ const todos = [
     reqBody: {},
   },
   {
-    reqName: 'Fetch TODO by id',
+    reqName: 'Fetch to-do by id',
     reqUrl: '{{URL}}/todos/{{ID}}',
     reqMethod: 'GET',
     reqHeaders: {},
@@ -59,7 +59,7 @@ const posts = [
     reqMethod: 'DELETE',
     reqHeaders: {},
     reqQueries: {},
-    proxy: false,
+    proxy: true,
     reqBody: {},
   },
 ]
