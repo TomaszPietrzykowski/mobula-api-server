@@ -30,12 +30,12 @@ const workspaceSchema = mongoose.Schema(
       default: [],
     },
     selectedRequest: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId || String,
       ref: 'Request',
       required: false,
     },
     environment: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId || String,
       ref: 'Environment',
       required: false,
     },

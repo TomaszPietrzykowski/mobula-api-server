@@ -1,4 +1,5 @@
 const Workspace = require('../model/workspaceModel')
+const User = require('../model/userModel')
 const asyncHandler = require('express-async-handler')
 
 // @description: Get all user's workspaces
@@ -66,6 +67,10 @@ exports.createWorkspace = asyncHandler(async (req, res) => {
   })
 
   if (workspace) {
+    const user = await User.findById(workspace.users[0])
+    user.workspaces = [...user.workspaces, workspace._id]
+    user.workspaceActive = workspace._id
+    await user.save()
     res.status(201).json(workspace)
   } else {
     res.status(500)
