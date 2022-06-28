@@ -1,6 +1,8 @@
 const Workspace = require('../model/workspaceModel')
 const User = require('../model/userModel')
 const asyncHandler = require('express-async-handler')
+const Request = require('../model/requestModel')
+const Collection = require('../model/collectionModel')
 
 // @description: Get all user's workspaces
 // @route: GET /api/workspace/getall/:userId
@@ -118,17 +120,12 @@ exports.updateWorkspace = asyncHandler(async (req, res) => {
 // @route DELETE: /api/workspace/:id
 // @access: Private
 exports.deleteWorkspace = asyncHandler(async (req, res) => {
-  console.log('controller entered')
   const workspace = await Workspace.findById(req.params.id)
   if (workspace) {
-    console.log('workspace if entered')
-
+    // remove workspace from user
     const userId = workspace.users[0]
     const user = await User.findById(userId)
     if (user) {
-      console.log('user if entered')
-      console.log(user.workspaces)
-      console.log(Array.isArray(user.workspaces))
       user.workspaces = Array.isArray(user.workspaces)
         ? user.workspaces.filter(
             (ws) => ws.toString() !== workspace._id.toString()
@@ -138,17 +135,29 @@ exports.deleteWorkspace = asyncHandler(async (req, res) => {
         user.workspaceActive.toString() === workspace._id.toString()
           ? null
           : user.workspaceActive
-      console.log(user.workspaces)
-      console.log(user.workspaceActive)
-      await user.save()
 
-      // ---------- TO DO ------------------------------
-      // delete all requests
-      // delete all collections
+      await user.save()
+    }
+
+    // delete all requests
+    const requests = workspace.requests
+    if (Array.isArray(requests)) {
+      for (let i = requests.length; i > 0; i--) {
+        const toBeDeleted = await Request.findById(requests[i - 1])
+        await toBeDeleted.remove()
+      }
+    }
+    // delete all collections
+    const collections = workspace.collections
+    if (Array.isArray(collections)) {
+      for (let i = collections.length; i > 0; i--) {
+        const toBeDeleted = await Collection.findById(collections[i - 1])
+        await toBeDeleted.remove()
+      }
     }
 
     await workspace.remove()
-    console.log('passed remove')
+
     res.status(204).send()
   } else {
     res.status(404)
