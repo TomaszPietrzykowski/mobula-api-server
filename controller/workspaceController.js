@@ -3,6 +3,7 @@ const User = require('../model/userModel')
 const asyncHandler = require('express-async-handler')
 const Request = require('../model/requestModel')
 const Collection = require('../model/collectionModel')
+const Env = require('../model/environmentModel')
 
 // @description: Get all user's workspaces
 // @route: GET /api/workspace/getall/:userId
@@ -80,7 +81,7 @@ exports.createWorkspace = asyncHandler(async (req, res) => {
   }
 })
 
-// @description: Update new workspace
+// @description: Update workspace
 // @route PUT: /api/workspace/:id
 // @access: Privare
 exports.updateWorkspace = asyncHandler(async (req, res) => {
@@ -122,7 +123,7 @@ exports.updateWorkspace = asyncHandler(async (req, res) => {
 exports.deleteWorkspace = asyncHandler(async (req, res) => {
   const workspace = await Workspace.findById(req.params.id)
   if (workspace) {
-    // remove workspace from user
+    // remove workspace from user object
     const userId = workspace.users[0]
     const user = await User.findById(userId)
     if (user) {
@@ -152,9 +153,6 @@ exports.deleteWorkspace = asyncHandler(async (req, res) => {
           ]
         }
         await toBeDeleted.remove()
-        console.log(
-          `collection deleted: ${toBeDeleted.name}; id: ${toBeDeleted._id}`
-        )
       }
     }
     // delete all requests
@@ -165,12 +163,21 @@ exports.deleteWorkspace = asyncHandler(async (req, res) => {
       for (let i = requests.length; i > 0; i--) {
         const toBeDeleted = await Request.findById(requests[i - 1])
         await toBeDeleted.remove()
-        console.log(
-          `request deleted: ${toBeDeleted.name}; id: ${toBeDeleted._id}`
-        )
       }
     }
-
+    // delete all environments
+    console.log(workspace.environments)
+    console.log(workspace.environment)
+    const env = Array.isArray(workspace.environments)
+      ? workspace.environments
+      : []
+    if (env.length > 0) {
+      for (let i = env.length; i > 0; i--) {
+        const toBeDeleted = await Env.findById(env[i - 1])
+        await toBeDeleted.remove()
+      }
+    }
+    // finally remove workspace itself
     await workspace.remove()
 
     res.status(204).send()

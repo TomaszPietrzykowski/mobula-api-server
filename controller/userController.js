@@ -92,8 +92,9 @@ exports.registerUser = asyncHandler(async (req, res) => {
     workspace.openRequests = [t1._id, t2._id, t3._id]
     workspace.selectedRequest = t1._id
     workspace.environment = env._id
+    workspace.environments = [env._id]
 
-    const updatedWorkspace = await workspace.save()
+    await workspace.save()
 
     // finally update user
 
