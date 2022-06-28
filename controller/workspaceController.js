@@ -118,10 +118,38 @@ exports.updateWorkspace = asyncHandler(async (req, res) => {
 // @route DELETE: /api/workspace/:id
 // @access: Private
 exports.deleteWorkspace = asyncHandler(async (req, res) => {
+  console.log('controller entered')
   const workspace = await Workspace.findById(req.params.id)
   if (workspace) {
+    console.log('workspace if entered')
+
+    const userId = workspace.users[0]
+    const user = await User.findById(userId)
+    if (user) {
+      console.log('user if entered')
+      console.log(user.workspaces)
+      console.log(Array.isArray(user.workspaces))
+      user.workspaces = Array.isArray(user.workspaces)
+        ? user.workspaces.filter(
+            (ws) => ws.toString() !== workspace._id.toString()
+          )
+        : []
+      user.workspaceActive =
+        user.workspaceActive.toString() === workspace._id.toString()
+          ? null
+          : user.workspaceActive
+      console.log(user.workspaces)
+      console.log(user.workspaceActive)
+      await user.save()
+
+      // ---------- TO DO ------------------------------
+      // delete all requests
+      // delete all collections
+    }
+
     await workspace.remove()
-    res.status(204).json({ message: 'Workspace deleted' })
+    console.log('passed remove')
+    res.status(204).send()
   } else {
     res.status(404)
     throw new Error('Workspace not found')

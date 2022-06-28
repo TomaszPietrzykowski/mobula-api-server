@@ -8,7 +8,7 @@ router
   .route('/:id')
   .get(auth, workspaceController.getWorkspaceById)
   .put(auth, workspaceController.updateWorkspace)
-  .delete(auth, workspaceController.deleteWorkspace)
+  .delete(workspaceController.deleteWorkspace)
 router
   .route('/getall/:userId')
   .get(auth, workspaceController.getUsersWorkspaces)

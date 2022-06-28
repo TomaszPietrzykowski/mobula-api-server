@@ -131,6 +131,7 @@ exports.loginUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       workspaceActive: user.workspaceActive,
+      workspaces: user.workspaces,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
     })
