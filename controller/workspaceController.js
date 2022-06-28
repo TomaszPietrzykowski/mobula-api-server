@@ -139,20 +139,35 @@ exports.deleteWorkspace = asyncHandler(async (req, res) => {
       await user.save()
     }
 
-    // delete all requests
-    const requests = workspace.requests
-    if (Array.isArray(requests)) {
-      for (let i = requests.length; i > 0; i--) {
-        const toBeDeleted = await Request.findById(requests[i - 1])
-        await toBeDeleted.remove()
-      }
-    }
     // delete all collections
     const collections = workspace.collections
+    let requestsFromCollections = []
     if (Array.isArray(collections)) {
       for (let i = collections.length; i > 0; i--) {
         const toBeDeleted = await Collection.findById(collections[i - 1])
+        if (Array.isArray(toBeDeleted.requests)) {
+          requestsFromCollections = [
+            ...requestsFromCollections,
+            ...toBeDeleted.requests,
+          ]
+        }
         await toBeDeleted.remove()
+        console.log(
+          `collection deleted: ${toBeDeleted.name}; id: ${toBeDeleted._id}`
+        )
+      }
+    }
+    // delete all requests
+    const requests = Array.isArray(workspace.requests)
+      ? [...workspace.requests, ...requestsFromCollections]
+      : requestsFromCollections
+    if (requests.length > 0) {
+      for (let i = requests.length; i > 0; i--) {
+        const toBeDeleted = await Request.findById(requests[i - 1])
+        await toBeDeleted.remove()
+        console.log(
+          `request deleted: ${toBeDeleted.name}; id: ${toBeDeleted._id}`
+        )
       }
     }
 
