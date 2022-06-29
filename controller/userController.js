@@ -30,7 +30,6 @@ exports.registerUser = asyncHandler(async (req, res) => {
     // setup default workspace --------------------------------------------
 
     // get boilerplate workspace
-
     const workspace = await Workspace.create({
       name: 'My first project',
       users: [user._id],
@@ -39,7 +38,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
       openRequests: [],
     })
 
-    // create exemplary requests
+    // create template requests
     const userData = {
       userId: user._id,
       createdBy: user._id,
@@ -56,7 +55,6 @@ exports.registerUser = asyncHandler(async (req, res) => {
     ])
 
     // create collections, assign requests
-
     const colTodo = {
       name: 'To-do list endpoints',
       user: user._id,
@@ -74,8 +72,7 @@ exports.registerUser = asyncHandler(async (req, res) => {
       Collection.create(colPosts),
     ])
 
-    // create exemplary environment
-
+    // create template environment
     const env = await Env.create({
       name: 'JSON Placeholder',
       user: user._id,
@@ -86,7 +83,6 @@ exports.registerUser = asyncHandler(async (req, res) => {
     })
 
     // update workspace
-
     workspace.collections = [c1._id, c2._id]
     workspace.requests = []
     workspace.openRequests = [t1._id, t2._id, t3._id]
@@ -126,19 +122,24 @@ exports.registerUser = asyncHandler(async (req, res) => {
 exports.loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
   const user = await User.findOne({ email })
-  if (user && (await user.matchPassword(password))) {
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      workspaceActive: user.workspaceActive,
-      workspaces: user.workspaces,
-      isAdmin: user.isAdmin,
-      token: generateToken(user._id),
-    })
+  if (user) {
+    if (await user.matchPassword(password)) {
+      res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        workspaceActive: user.workspaceActive,
+        workspaces: user.workspaces,
+        isAdmin: user.isAdmin,
+        token: generateToken(user._id),
+      })
+    } else {
+      res.status(401)
+      throw new Error('Unauthorized: invalid login or password')
+    }
   } else {
-    res.status(401)
-    throw new Error('Invalid email or password')
+    res.status(404)
+    throw new Error('Invalid user data')
   }
 })
 
