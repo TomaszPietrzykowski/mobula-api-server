@@ -83,7 +83,7 @@ exports.createWorkspace = asyncHandler(async (req, res) => {
 
 // @description: Update workspace
 // @route PUT: /api/workspace/:id
-// @access: Privare
+// @access: Private
 exports.updateWorkspace = asyncHandler(async (req, res) => {
   const {
     name,
@@ -133,7 +133,7 @@ exports.deleteWorkspace = asyncHandler(async (req, res) => {
           )
         : []
       user.workspaceActive =
-        user.workspaceActive.toString() === workspace._id.toString()
+        user.workspaceActive?.toString() === workspace._id.toString()
           ? null
           : user.workspaceActive
 
