@@ -39,6 +39,11 @@ exports.getWorkspaceById = asyncHandler(async (req, res) => {
 
   if (workspace) {
     const env = workspace._doc.environment || ''
+    const user = await User.findById(workspace.users[0])
+    if (user) {
+      user.workspaceActive = workspace._doc._id
+      await user.save()
+    }
     res.status(200).json({ ...workspace._doc, env })
   } else {
     res.status(404)
