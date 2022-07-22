@@ -171,8 +171,6 @@ exports.deleteWorkspace = asyncHandler(async (req, res) => {
       }
     }
     // delete all environments
-    console.log(workspace.environments)
-    console.log(workspace.environment)
     const env = Array.isArray(workspace.environments)
       ? workspace.environments
       : []
