@@ -1,6 +1,7 @@
 const Collection = require('../model/collectionModel')
 const asyncHandler = require('express-async-handler')
 const Workspace = require('../model/workspaceModel')
+const Request = require('../model/requestModel')
 
 // @description: Create new collection
 // @route POST: /api/collection
@@ -68,9 +69,10 @@ exports.deleteCollection = asyncHandler(async (req, res) => {
     // remove from workspace
     const workspace = await Workspace.findById(collection.workspace)
     if (workspace) {
-      workspace.collections = workspace.collections.filter(
-        (c) => c._id !== collection._id
+      const filtered = workspace.collections.filter(
+        (c) => c.toString() !== collection._id.toString()
       )
+      workspace.collections = [...filtered]
       await workspace.save()
     }
     // delete requests
