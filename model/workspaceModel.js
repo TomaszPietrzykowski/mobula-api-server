@@ -12,7 +12,7 @@ const workspaceSchema = mongoose.Schema(
       default: 'New workspace',
     },
     collections: {
-      type: [mongoose.Schema.Types.ObjectId],
+      type: [mongoose.Schema.Types.ObjectId] || [String],
       ref: 'Collection',
       required: true,
       default: [],

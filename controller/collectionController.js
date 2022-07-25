@@ -60,21 +60,28 @@ exports.updateCollection = asyncHandler(async (req, res) => {
 })
 
 // @description: Delete collection
-// @route PUT: /api/collection/:id
+// @route DELETE: /api/collection/:id
 // @access: Private
 exports.deleteCollection = asyncHandler(async (req, res) => {
   const collection = await Collection.findById(req.params.id)
 
   if (collection) {
-    // remove from workspace
-    const workspace = await Workspace.findById(collection.workspace)
-    if (workspace) {
-      const filtered = workspace.collections.filter(
-        (c) => c.toString() !== collection._id.toString()
-      )
-      workspace.collections = [...filtered]
-      await workspace.save()
-    }
+    // ----------------------------------------------------------------
+    // // REMOVE FROM WORKSPACE --- rework, currently done from front end
+    //
+    // const workspace = await Workspace.findById(collection.workspace)
+    // if (workspace) {
+    //   const filtered = workspace.collections.filter(
+    //     (c) => c.toString() !== collection._id.toString()
+    //   )
+
+    //   workspace.collections = filtered
+
+    //   await workspace.markModified('collections')
+    //   await workspace.save()
+    // }
+    // ---------------------------------------------------------------
+
     // delete requests
     if (collection.requests.length > 0) {
       for (let i = collection.requests.length; i > 0; i--) {
